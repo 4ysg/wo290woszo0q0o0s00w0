@@ -217,5 +217,20 @@
             }
         });
     </script>
+    <script>// ...
+        document.addEventListener('DOMContentLoaded', function () {
+            // ...
+            // Listen for click event on copy button
+            document.querySelector('#popup .copy-button').addEventListener('click', function () {
+                var coordinates = document.getElementById('coordinates').textContent;
+                navigator.clipboard.writeText(coordinates).then(function () {
+                    alert('Coordinates copied to clipboard!');
+                }, function (err) {
+                    console.error('Failed to copy coordinates to clipboard:', err);
+                });
+            });
+            // ...
+        });
+    </script>
 </body>
 </html>
