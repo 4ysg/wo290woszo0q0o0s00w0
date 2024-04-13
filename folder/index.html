@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Redemption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #34568B;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #34568B;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        form {
+            margin-top: 2rem;
+        }
+
+        input[type="text"] {
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #34568B;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #44679E;
+        }
+
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 2rem;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+
+        #popup h2 {
+            color: #34568B;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #popup p {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        #info {
+            margin-bottom: 2rem;
+        }
+
+        #info p {
+            margin-bottom: 0.5rem;
+        }
+
+        #popup .coordinates {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        #popup .copy-button {
+            background-color: #34568B;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #popup .copy-button:hover {
+            background-color: #44679E;
+        }
+
+        #popup .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Token Redemption</h1>
+    </header>
+    <main>
+        <div id="info">
+            <p>If you have found one of our tokens, enter its unique code below to receive your special coordinates.</p>
+            <p>You can redeem your coordinates for exciting prizes!</p>
+        </div>
+        <form id="redeemForm">
+            <input type="text" id="code" placeholder="Enter your token code here">
+            <button type="submit">Redeem Token</button>
+        </form>
+        <div id="popup">
+            <h2>Congratulations!</h2>
+            <p id="coordinates" class="coordinates"></p>
+            <button class="copy-button" data-clipboard-text="">Copy Coordinates</button>
+            <button class="close-button">&times;</button>
+        </div>
+    </main>
+    <script>
+        // Array of codes and coordinates
+        var codes = [
+            { code: 'ABC123', coordinates: '37.7749° N, 122.4194° W' },
+            { code: 'DEF456', coordinates: '40.7128° N, 74.0060° W' },
+            { code: 'GHI789', coordinates: '51.5074° N, 0.1278° W' }
+            // Add more codes and coordinates as needed
+        ];
+
+        // Clipboard.js
+        var clipboard = new ClipboardJS('.copy-button');
+
+        clipboard.on('success', function(e) {
+            alert('Coordinates copied to clipboard!');
+            e.clearSelection();
+        });
+
+        document.getElementById('redeemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var code = codeInput.value.trim();
+            var found = false;
+            for (var i = 0; i < codes.length; i++) {
+                if (codes[i].code === code) {
+                    found = true;
+                    document.getElementById('coordinates').textContent = codes[i].coordinates;
+                    break;
+                }
+            }
+            if (!found) {
+                alert('Invalid code. Please try again.');
+                codeInput.value = '';
+            } else {
+                document.getElementById('popup').style.display = 'block';
+            }
+        });
+
+        // Hide popup when clicked outside
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('popup')) {
+                document.getElementById('popup').style.display = 'none';
+            }
+        });
+
+        // Close popup when "X" button is clicked
+        document.getElementById('popup').getElementsByClassName('close-button')[0].addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
