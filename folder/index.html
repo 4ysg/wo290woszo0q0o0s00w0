@@ -150,6 +150,52 @@
             width: 100%;
             display: none;
         }
+        #comments-section {
+  margin-top: 2rem;
+}
+
+#comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#comments-list li {
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 0;
+}
+
+#comments-list li .display-name {
+  font-weight: bold;
+}
+
+#comments-list li .date {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+#comment-form {
+  margin-top: 1rem;
+}
+
+#comment-form input,
+#comment-form textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+#comment-form button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+#comment-form button:hover {
+  background-color: #3e8e41;
+}
     </style>
 </head>
 <body>
@@ -231,5 +277,46 @@
             // ...
         });
     </script>
+    <script>
+        const commentForm = document.getElementById('comment-form');
+const displayNameInput = document.getElementById('display-name');
+const commentContentInput = document.getElementById('comment-content');
+const commentsList = document.getElementById('comments-list');
+
+commentForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const displayName = displayNameInput.value.trim();
+  const commentContent = commentContentInput.value.trim();
+
+  if (!displayName || !commentContent) {
+    return;
+  }
+
+  const commentElement = document.createElement('li');
+  commentElement.innerHTML = `
+    <span class="display-name">${displayName}</span>
+    <span class="date">${new Date().toLocaleString()}</span>
+    <p>${commentContent}</p>
+  `;
+
+  commentsList.appendChild(commentElement);
+
+  // Clear form fields
+  displayNameInput.value = '';
+  commentContentInput.value = '';
+});
+    </script>
+    <div id="comments-section">
+  <h2>Have any questions?</h2>
+  <ul id="comments-list">
+    <!-- Comments will be displayed here -->
+  </ul>
+  <form id="comment-form">
+    <input type="text" id="display-name" placeholder="Enter your display name" required>
+    <textarea id="comment-content" placeholder="Enter your comment" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</div>
 </body>
 </html>
