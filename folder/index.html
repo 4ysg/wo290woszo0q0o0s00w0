@@ -163,7 +163,8 @@
         </div>
         <form id="redeemForm">
             <input type="text" id="code" placeholder="Enter your token code here">
-            <button type="submit">Redeem Token</button>
+            <button type="submit">Redeem Token
+            </button>
         </form>
         <div id="popup">
             <h2>Congratulations!</h2>
@@ -176,25 +177,23 @@
         Made by FlowerSpider
     </footer>
     <script>
-        //Array of codes and coordinates
-var codes = [
+        var codes = [
             { code: 'ABC123', coordinates: '37.7749° N, 122.4194° W' },
             { code: 'DEF456', coordinates: '40.7128° N, 74.0060° W' },
             { code: 'GHI789', coordinates: '51.5074° N, 0.1278° W' }
-            // Add more codes and coordinates as needed
         ];
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var popup = document.getElementById('popup');
             var closeButton = document.querySelector('#popup .close-button');
 
             // Close pop-up when clicked on closebutton
-            closeButton.addEventListener('click', function() {
+            closeButton.addEventListener('click', function () {
                 popup.style.display = 'none';
             });
 
             // Listen for form submit event
-            document.getElementById('redeemForm').addEventListener('submit', function(e) {
+            document.getElementById('redeemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 var code = document.getElementById('code').value.trim();
                 var found = false;
@@ -212,8 +211,8 @@ var codes = [
                 }
             });
 
-            //Scroll to footer on page load
-            window.onload = function() {
+            // Scroll to footer on page load
+            window.onload = function () {
                 window.scrollTo(0, document.body.scrollHeight);
             }
         });
