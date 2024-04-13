@@ -41,7 +41,9 @@
         }
 
         form {
-            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         input[type="text"] {
@@ -158,78 +160,50 @@
     </header>
     <main>
         <div id="info">
-            <p>If you have one of our tokens, enter its unique code below to receive your special coordinates.</p>
-            <p>You can redeem your coordinates for exciting prizes!</p>
+            <p>Please enter your redemption code:</p>
+            <input type="text" id="redemption-code" placeholder="Redemption Code">
+            <button id="redeem-button">Redeem</button>
         </div>
-        <form id="redeemForm">
-            <input type="text" id="code" placeholder="Enter your token code here">
-            <button type="submit">Redeem Token
-            </button>
-        </form>
         <div id="popup">
-            <h2>Congratulations!</h2>
-            <p id="coordinates" class="coordinates"></p>
-            <button class="copy-button" data-clipboard-text="">Copy Coordinates</button>
             <button class="close-button">&times;</button>
+            <h2>Redemption Successful!</h2>
+            <p>Your redemption code has been successfully redeemed. The token has been transferred to your wallet.</p>
+            <div class="coordinates">Coordinates: 0, 0</div>
+            <button class="copy-button">Copy Coordinates</button>
         </div>
     </main>
     <footer>
-        Made by FlowerSpider
+        <p>&copy; 2022 Company, Inc. All rights reserved.</p>
     </footer>
     <script>
-        var codes = [
-            { code: 'ABC123', coordinates: '37.7749° N, 122.4194° W' },
-            { code: 'DEF456', coordinates: '40.7128° N, 74.0060° W' },
-            { code: 'GHI789', coordinates: '51.5074° N, 0.1278° W' }
-        ];
+        document.getElementById('redeem-button').addEventListener('click', function () {
+            const redemptionCode = document.getElementById('redemption-code').value;
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var popup = document.getElementById('popup');
-            var closeButton = document.querySelector('#popup .close-button');
+            if (redemptionCode) {
+                // Call API to redeem the token
+                // Replace the code below with the actual API call
+                const coordinates = [0, 0];
 
-            // Close pop-up when clicked on closebutton
-            closeButton.addEventListener('click', function () {
-                popup.style.display = 'none';
-            });
+                document.getElementById('popup').style.display = 'block';
+                document.getElementById('info').style.display = 'none';
+                document.getElementById('footer').style.display = 'block';
 
-            // Listen for form submit event
-            document.getElementById('redeemForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                var code = document.getElementById('code').value.trim();
-                var found = false;
-                for (var i = 0; i < codes.length; i++) {
-                    if (codes[i].code === code) {
-                        found = true;
-                        document.getElementById('coordinates').textContent = codes[i].coordinates;
-                        popup.style.display = 'block';
-                        break;
-                    }
-                }
-                if (!found) {
-                    alert('Invalid code. Please try again.');
-                    document.getElementById('code').value = '';
-                }
-            });
-
-            // Scroll to footer on page load
-            window.onload = function () {
-                window.scrollTo(0, document.body.scrollHeight);
+                document.querySelector('.coordinates').textContent = 'Coordinates: ' + coordinates.join(', ');
+            } else {
+                alert('Please enter a redemption code.');
             }
         });
-    </script>
-    <script>// ...
-        document.addEventListener('DOMContentLoaded', function () {
-            // ...
-            // Listen for click event on copy button
-            document.querySelector('#popup .copy-button').addEventListener('click', function () {
-                var coordinates = document.getElementById('coordinates').textContent;
-                navigator.clipboard.writeText(coordinates).then(function () {
-                    alert('Coordinates copied to clipboard!');
-                }, function (err) {
-                    console.error('Failed to copy coordinates to clipboard:', err);
-                });
-            });
-            // ...
+
+        document.querySelector('.close-button').addEventListener('click', function () {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('info').style.display = 'block';
+            document.getElementById('footer').style.display = 'none';
+        });
+
+        document.querySelector('.copy-button').addEventListener('click', function () {
+            const coordinates = document.querySelector('.coordinates').textContent;
+            navigator.clipboard.writeText(coordinates);
+            alert('Coordinates copied to clipboard!');
         });
     </script>
 </body>
