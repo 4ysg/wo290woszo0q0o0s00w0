@@ -4,139 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Token Redemption</title>
+    <!-- Add Bootstrap for responsive design and modal -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e3s4Wz6iJgD/+ub2oU" crossorigin="anonymous">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        header {
-            background-color: #34568B;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            color: #34568B;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        form {
-            margin-top: 2rem;
-        }
-
-        input[type="text"] {
-            padding: 0.5rem;
-            font-size: 1.2rem;
-            width: 100%;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button {
-            background-color: #34568B;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-        }
-
-        button:hover {
-            background-color: #44679E;
-        }
-
-        #popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            padding: 2rem;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            border-radius: 4px;
-            z-index: 9999;
-            width: 50%;
-        }
-
-        #popup h2 {
-            color: #34568B;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        #popup p {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        #info {
-            margin-bottom: 2rem;
-        }
-
-        #info p {
-            margin-bottom: 0.5rem;
-        }
-
-        #popup .coordinates {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        #popup .copy-button {
-            background-color: #34568B;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-        }
-
-        #popup .copy-button:hover {
-            background-color: #44679E;
-        }
-
-        #popup .close-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: transparent;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
+        /* Add custom styles here */
     </style>
 </head>
 <body>
@@ -152,13 +23,25 @@
             <input type="text" id="code" placeholder="Enter your token code here">
             <button type="submit">Redeem Token</button>
         </form>
-        <div id="popup">
-            <h2>Congratulations!</h2>
-            <p id="coordinates" class="coordinates"></p>
-            <button class="copy-button" data-clipboard-text="">Copy Coordinates</button>
-            <button class="close-button">&times;</button>
+        <!-- Add Bootstrap modal for pop-up -->
+        <div class="modal fade" id="popup" tabindex="-1" aria-labelledby="popupLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="popupLabel">Congratulations!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="coordinates" class="coordinates"></p>
+                        <button class="btn btn-primary copy-button" data-clipboard-text="">Copy Coordinates</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybB5IXNxFwWQfE7u8Lj+XJHAxKlXiG/8rsrtpb6PEdzD828Ii" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
     <script>
         // Array of codes and coordinates
         var codes = [
@@ -169,12 +52,10 @@
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
-            var popup = document.getElementById('popup');
-            var closeButton = document.querySelector('#popup .close-button');
-
-            // Close pop-up when clicked on close button
-            closeButton.addEventListener('click', function() {
-                popup.style.display = 'none';
+            // Initialize Bootstrap modal
+            var popup = new bootstrap.Modal(document.getElementById('popup'), {
+                backdrop: 'static',
+                keyboard: false
             });
 
             // Listen for form submit event
@@ -186,7 +67,7 @@
                     if (codes[i].code === code) {
                         found = true;
                         document.getElementById('coordinates').textContent = codes[i].coordinates;
-                        popup.style.display = 'block';
+                        popup.show();
                         break;
                     }
                 }
@@ -195,6 +76,9 @@
                     document.getElementById('code').value = '';
                 }
             });
+
+            // Add clipboard.js for copy button
+            new ClipboardJS('.copy-button');
         });
     </script>
 </body>
